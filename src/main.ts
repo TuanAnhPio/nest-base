@@ -23,10 +23,11 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.enableCors();
 
   app.use(helmet());
 
-  await app.listen(3000);
+  await app.listen(process.env.APP_PORT);
 }
 
 bootstrap();

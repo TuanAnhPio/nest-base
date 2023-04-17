@@ -3,18 +3,24 @@ import { User } from '../user/entities/user.entities';
 import { UserService } from '../user/user.service';
 import { SignUpDto } from './dtos/sign-up.dto';
 import * as bcrypt from 'bcrypt';
-import { classToPlain, plainToClass } from 'class-transformer';
+import { plainToClass } from 'class-transformer';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
   ) {}
 
-  async signIn(email: string, password: string): Promise<any> {
-    const user = await this.userService.findOneByEmail(email);
+  async signIn(username: string, password: string): Promise<any> {
+    const user = await this.userRepository.findOne({
+      where: { username: username },
+    });
     if (!user) {
       throw new BadRequestException('Email or password is incorrect.');
     }

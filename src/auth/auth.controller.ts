@@ -28,7 +28,7 @@ export class AuthController {
   @Post('login')
   @SkipAuth()
   signIn(@Body() signInDto: SignInDto): any {
-    return this.authService.signIn(signInDto.email, signInDto.password);
+    return this.authService.signIn(signInDto.username, signInDto.password);
   }
 
   @HttpCode(HttpStatus.OK)

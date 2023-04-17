@@ -3,10 +3,10 @@ import { IsNotEmpty } from 'class-validator';
 
 export class SignInDto {
   @ApiProperty({
-    default: 'tuananh.nguyen@pionero.io',
+    default: 'tuananh.nguyen',
   })
-  @IsNotEmpty({ message: 'email is required.' })
-  email: string;
+  @IsNotEmpty({ message: 'username is required.' })
+  username: string;
 
   @ApiProperty({
     default: 'Anhtuan1!',
