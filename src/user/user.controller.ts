@@ -13,7 +13,7 @@ export class UserController {
 
   @Get('/')
   @UseGuards(AuthGuard, RolesGuard)
-  @Roles(Role.SUB_ADMIN)
+  @Roles(Role.Admin)
   getAllUser(): any {
     return this.userService.findAll();
   }

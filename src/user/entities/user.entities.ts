@@ -16,6 +16,10 @@ export class User {
   id: number;
 
   @ApiProperty()
+  @Column({ unique: true })
+  username: string;
+
+  @ApiProperty()
   @Column({ length: 50 })
   name: string;
 
@@ -42,9 +46,9 @@ export class User {
   updatedAt: Date;
 
   @ApiProperty({
-    default: [Role.User],
+    default: Role,
   })
   @Column({ type: 'varchar', length: 255, name: 'roles', default: Role.User })
-  @Transform(({ value }) => value.split(','), { toClassOnly: true })
-  roles: Role[];
+  // @Transform(({ value }) => value.split(','), { toClassOnly: true })
+  roles: Role;
 }
