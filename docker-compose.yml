@@ -7,22 +7,27 @@ services:
       - SYS_NICE
     restart: unless-stopped
     environment:
-      - MYSQL_DATABASE=nest-base
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      - MYSQL_ROOT_PASSWORD={DATABASE_PASSWORD}
     ports:
-      - '3306:3306'
+      - ${DATABASE_PORT}:${DATABASE_PORT}
     volumes:
       - db:/var/lib/mysql
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
   api:
-    container_name: nest-base
-    build: .
+    build:
+      dockerfile: Dockerfile
+      context: .
+      # Only will build development stage from our dockerfile
+      target: development
+    volumes:
+      - .:/usr/src/app
     env_file:
       - .env
     # Run a command against the development stage of the image
-#    command: yarn start:dev
+    command: npm run start:dev
     ports:
-      - '3001:3001'
+      - ${APP_PORT}:${APP_PORT}
     depends_on:
       - db
 volumes:
